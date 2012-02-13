@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function() {
+      $.ajax({
+        url: 'http://query.yahooapis.com/v1/public/yql',
+        data: { 
+          q: "select * from csv where url='https://docs.google.com/spreadsheet/pub?key=0AgwxfJ2RdQrudDVKTl9aNHhVQlU1blFHcC1sZHhBOEE&single=true&gid=1&output=csv' and columns='Key,Value'",
+          format: 'json'
+        },
+        dataType: 'jsonp',
+        success: function(data) {
+          $(data.query.results.row).each(function(idx, row) {
+              if (row.Key === "Key") {
+                  return;
+              }
+              $("#"+row.Key).text(row.Value);
+          });
+        }
+      });
+    });
+    </script>
+</head>
+<body>
+    <p>campaignId: <span id="campaignId"></span></p>
+    <p>campaignName: <span id="campaignName"></span></p>
+    <p>pageHits: <span id="pageHits"></span></p>
+    <p>registrations: <span id="registrations"></span></p>
+    <p>emailsSent: <span id="emailsSent"></span></p>
+    <p>participatingSupporters: <span id="participatingSupporters"></span></p>
+</body>
+</html>

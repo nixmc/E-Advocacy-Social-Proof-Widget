@@ -19,53 +19,53 @@ A social proof widget to be used in conjunction with the E-Advocacy platform.
 # Options
 The plugin takes the following options:
 
-1.  url
++   **Name:** url
 
-    String
+    **Type:** String
     
-    Default: 'http://spreadsheets.google.com/feeds/list/0AgwxfJ2RdQrudDVKTl9aNHhVQlU1blFHcC1sZHhBOEE/2/public/basic?alt=json'
+    **Default:** 'http://spreadsheets.google.com/feeds/list/0AgwxfJ2RdQrudDVKTl9aNHhVQlU1blFHcC1sZHhBOEE/2/public/basic?alt=json'
     
     The url you wish to fetch your data from.
     
-1.  auto_measurement_key
++   **Name:** auto_measurement_key
 
-    String
+    **Type:** String
     
-    Default: 'emailsSent'
+    **Default:** 'emailsSent'
     
     The key within the data you wish to use as your automatically updating number.
     
-1.  manual_measurement_key
++   **Name:** manual_measurement_key
 
-    String
+    **Type:** String
     
-    Default: 'manualMeasurement'
+    **Default:** 'manualMeasurement'
     
     The key within the data you wish to use as the number you will update manually.
     
-1.  target_key
++   **Name:** target_key
 
-    String
+    **Type:** String
     
-    Default: 'target'
+    **Default:** 'target'
     
     The key within the data you wish to use as the target figure, the grand total you are aiming for.
     
-1.  measurement_text_key
++   **Name:** measurement_text_key
 
-    String
+    **Type:** String
     
-    Default: 'measurementText'
+    **Default:** 'measurementText'
     
     The key within the data you wish to use as the text above the widget. eg, 'emails sent' or 'signups'
     
     This text will be prefixed with the total number of auto_measurement + target_measurement.
     
-1.  debug
++   **Name:** debug
 
-    Boolean
+    **Type:** Boolean
     
-    Default: false
+    **Default:** false
     
     If set to true, a small amount of CSS will be injected into the head section of the html. This will style the widget in a bland way for testing.
 
@@ -80,11 +80,11 @@ The plugin takes the following options:
         <p>campaignName: <span id="campaignName">My Campaign</span></p>
         <p>target: <span id="target">100000</span></p>
         
-1.  template_html
++   **Name:** template_html
 
-    String
+    **Type:** String
     
-    Default: 
+    **Default:** 
     
         "<div id='measurement-text'><%= total %> <%= measurement_text %></div> \
         <div id='progress-total'> \

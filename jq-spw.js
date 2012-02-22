@@ -1,7 +1,6 @@
 // namespace our plugin
 (function($) {
-  
-  // 
+
   $.fn.spwWidgetize = function(opts) {
     // start of plugin code
     var defaults = {

@@ -1,12 +1,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <style type="text/css">
+      #container{ width: 300px; height: 50px;}
+    </style>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
     <script type="text/javascript" src="jq-spw.js"></script>
     <script type="text/javascript">
-      $(document).ready(function() {
-        $('#target').spwWidgetize();
+    $(document).ready(function() {
+      $('#container').spwWidgetize({
+        url: 'http://spreadsheets.google.com/feeds/list/0AgwxfJ2RdQrudDVKTl9aNHhVQlU1blFHcC1sZHhBOEE/2/public/basic?alt=json',
+        auto_measurement_key: 'emailsSent',
+        manual_measurement_key: 'manualMeasurement',
+        target_key: 'target',
+        measurement_text_key: 'measurementText',
+        debug: true,
+        template_html: "\
+          <div id='measurement-text'><%= total %> <%= measurement_text %></div> \
+          <div id='progress-total'> \
+            <div id='progress-bar' style='width: <%= progress_width %>px;'></div> \
+          </div> \
+          <div id='stats'><span class='base-stat>0</span> <span class='target-stat><%= target %></span></div> \
+        ",
       });
+    });
     </script>
 </head>
 <body>
@@ -16,6 +33,9 @@
     <p>registrations: <span id="registrations"></span></p>
     <p>emailsSent: <span id="emailsSent"></span></p>
     <p>participatingSupporters: <span id="participatingSupporters"></span></p>
-    <div id="target"></div>
+    <p>target: <span id="target"></span></p>
+    <p>manual: <span id="manualMeasurement"></span></p>
+    
+    <div id="container"></div>
 </body>
 </html>

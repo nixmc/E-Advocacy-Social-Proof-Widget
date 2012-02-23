@@ -4,10 +4,11 @@ A social proof widget to be used in conjunction with the E-Advocacy platform.
 # Usage
     <html>
       <head>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.js"></script>
         <script type="text/javascript" src="jq-spw.js"></script>
         <script type="text/javascript">
           $(document).ready(function() {
-            $('#container').spwWidgetize({debug: true});
+            $('#container').spwWidgetize(http://spreadsheets.google.com/feeds/list/0AgwxfJ2RdQrudDVKTl9aNHhVQlU1blFHcC1sZHhBOEE/2/public/basic?alt=json, {debug: true});
           });
         </script>
       </head>
@@ -15,6 +16,8 @@ A social proof widget to be used in conjunction with the E-Advocacy platform.
         <div id="container"></div>
       </body>
     </html>
+    
+Please note that the plugin depends on JQuery.
     
 # Options
 The plugin takes the following options:
@@ -25,7 +28,7 @@ The plugin takes the following options:
     
     **Default:** 'http://spreadsheets.google.com/feeds/list/0AgwxfJ2RdQrudDVKTl9aNHhVQlU1blFHcC1sZHhBOEE/2/public/basic?alt=json'
     
-    The url you wish to fetch your data from.
+    The url you wish to fetch your data from. This should return JSON!
     
 +   **Name:** auto_measurement_key
 
@@ -79,6 +82,27 @@ The plugin takes the following options:
     
         <p>campaignName: <span id="campaignName">My Campaign</span></p>
         <p>target: <span id="target">100000</span></p>
+        
++   **Name:** min_arrow
+
+    **Type:** Integer
+
+    **Default:** 3
+
+    This is the minimum amount the progress arrow can start at. This is because rounded boxes will cause it to break. See the ascii Diagram below
+    
+    Broken, value of 0:
+    
+        |
+        \__
+        \/
+        
+    Fixed, greater value, no overlap:
+    
+        |
+        \__
+         \/
+         
         
 +   **Name:** template_html
 

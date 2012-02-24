@@ -1,7 +1,7 @@
 // namespace our plugin
-(function($) {
+(function ($) {
 
-  $.fn.spwWidgetize = function(url, opts) {
+  $.fn.spwWidgetize = function (url, opts) {
     // start of plugin code
     var defaults = {
       auto_measurement_key: 'emailsSent',
@@ -20,15 +20,14 @@
 				<h5><span class='widget-footer-base'>0</span><span class='widget-footer-target'><%= target %></span></h5> \
 			</div> \
       "
-    }
+    }, $container = this;
+
     // merge the opts with the defaults, overwriting the defaults
     opts = $.extend(true, defaults, opts);
-    opts['url'] = url;
+    opts.url = url;
 
-    $container = this;
-    
     // Add the CSS to the head, this is for testing.
-    if (opts.debug){
+    if (opts.debug) {
       $('head').append('\
         <style type="text/css"> \
           #progress-total{ width: 100%; height: 50px; background: #AAA;} \
@@ -43,34 +42,35 @@
           #widget-wrapper h5 { position: relative; top: 10px; color: #000; font-size: 20px; } \
           #widget-wrapper h5 span.widget-footer-target { float: right; } \
         </style> \
-      ');
+    ');
     }
-    
+
     $.ajax({
       url: opts.url,
       dataType: 'jsonp',
-      success: function(remote_data) {
+      success: function (remote_data) {
+        var data = {}, progress_width, progress_percent_in_px, progress_arrow_position, template_html;
+        
         // sort out the data in to something useable
-        var data = {};
-        $(remote_data.feed.entry).each(function(idx, row) {
-          if (row.title.$t == opts.auto_measurement_key || row.title.$t == opts.manual_measurement_key || row.title.$t == opts.target_key || row.title.$t == opts.measurement_text_key){
+        $(remote_data.feed.entry).each(function (idx, row) {
+          if (row.title.$t === opts.auto_measurement_key || row.title.$t === opts.manual_measurement_key || row.title.$t === opts.target_key || row.title.$t === opts.measurement_text_key) {
             data[row.title.$t] = row.content.$t.replace("value: ", "");
           }
-          if (opts.debug){
-            $("#"+row.title.$t).text(row.content.$t.replace("value: ", ""));
+          if (opts.debug) {
+            $("#" + row.title.$t).text(row.content.$t.replace("value: ", ""));
           }
         });
-        
+
         // calculate progress
-        data['total'] = parseInt(data[opts.auto_measurement_key]) + parseInt(data[opts.manual_measurement_key]);
-        data['progress'] = parseInt(data['total']) / (parseInt(data[opts.target_key]) / 100);
-        var progress_width = $container.width();
-        var progress_percent_in_px =  (progress_width / 100) * data['progress'];
-        var progress_arrow_position = progress_percent_in_px > opts.min_arrow + 10 ? parseInt(progress_percent_in_px - 11) : 3;
-        
+        data.total = parseInt(data[opts.auto_measurement_key], 10) + parseInt(data[opts.manual_measurement_key], 10);
+        data.progress = parseInt(data.total, 10) / (parseInt(data[opts.target_key], 10) / 100);
+        progress_width = $container.width();
+        progress_percent_in_px =  (progress_width / 100) * data.progress;
+        progress_arrow_position = progress_percent_in_px > opts.min_arrow + 10 ? parseInt(progress_percent_in_px - 11, 10) : 3;
+
         // render the template
         template_html = template(opts.template_html, {
-          total: data['total'],
+          total: data.total,
           measurement_text: data[opts.measurement_text_key],
           progress_arrow_position: progress_arrow_position,
           progress_width: progress_percent_in_px,
@@ -79,7 +79,7 @@
         $container.html(template_html);
       }
     });
-    
+
     /*
      Templating from underscore.js
      http://documentcloud.github.com/underscore/
@@ -140,5 +140,8 @@
         return func.call(this, data, function(obj) { return new wrapper(obj); });
       };
     };
+    
+    // finally return 'this' so we can chain
+    return this;
   };
 })(jQuery);

@@ -32,10 +32,10 @@
         <style type="text/css"> \
           #progress-total{ width: 100%; height: 50px; background: #AAA;} \
           #progress-bar{ width: 0; height: 50px; background: #CCC;} \
-          #widget-wrapper { background: url("images/progress-bg.png") no-repeat scroll left top transparent; display: block; height: 130px; position: relative; top: 26px; width: 200px; color: #FFF; font-family: helvetica, ariel, sans-serif; } \
+          #widget-wrapper { background: url("images/progress-bg.png") no-repeat scroll left top transparent; display: block; height: 130px; position: relative; top: 26px; width: 500px; color: #FFF; font-family: helvetica, ariel, sans-serif; } \
           #widget-progress-arrow { background: url("images/progress-arrow.png") no-repeat scroll left top transparent; display: block; height: 11px; position: absolute; top: 75px; width: 21px; } \
           #widget-progress-value { background: none repeat scroll 0 0 #EC008C; display: block; height: 10px; left: 0; position: absolute; top: 91px; z-index: 0; } \
-          #widget-progress-meter { background: url("images/progress-meter.png") no-repeat scroll left top transparent; height: 16px; left: 0; position: absolute; top: 89px; width: 200px; } \
+          #widget-progress-meter { background: url("images/progress-meter.png") no-repeat scroll left top transparent; height: 16px; left: 0; position: absolute; top: 89px; width: 500px; } \
           #widget-wrapper h4 { padding: 10px; } \
           #widget-wrapper h4 span.widget-header-total { font-size: 30px; text-align: center; display: block; clear: right;} \
           #widget-wrapper h4 span.header-text { text-align: center; display: block;} \
@@ -44,10 +44,41 @@
         </style> \
     ');
     }
+    
+    var default_template = function(){
+      var progress = 0,
+        progress_width = $container.width(),
+        progress_percent_in_px =  (progress_width / 100) * progress,
+        progress_arrow_position = progress_percent_in_px > opts.min_arrow + 10 ? parseInt(progress_percent_in_px - 11, 10) : 3,
+      // render the template
+        template_html = template(opts.template_html, {
+          total: 0,
+          measurement_text: data[opts.measurement_text_key],
+          progress_arrow_position: progress_arrow_position,
+          progress_width: progress_percent_in_px,
+          target: data[opts.target_key]
+        });
+      $container.html(template_html);
+    }
 
     $.ajax({
       url: opts.url,
       dataType: 'jsonp',
+      timeout : 10000,
+      statusCode: {
+        400: function() {
+          default_template();
+        },
+        404: function(){
+          default_template();
+        },
+        500: function(){
+          default_template();
+        }
+      },
+      error: function(errormessage){
+        default_template()
+      },
       success: function (remote_data) {
         var data = {}, progress_width, progress_percent_in_px, progress_arrow_position, template_html;
         
@@ -63,7 +94,12 @@
 
         // calculate progress
         data.total = parseInt(data[opts.auto_measurement_key], 10) + parseInt(data[opts.manual_measurement_key], 10);
+        // error checking
+        data.total = isNaN(data.total) ? 26000 : data.total;
         data.progress = parseInt(data.total, 10) / (parseInt(data[opts.target_key], 10) / 100);
+        
+        data.total = data.total === 26000 ? '26,000+' : data.total;
+        
         progress_width = $container.width();
         progress_percent_in_px =  (progress_width / 100) * data.progress;
         progress_arrow_position = progress_percent_in_px > opts.min_arrow + 10 ? parseInt(progress_percent_in_px - 11, 10) : 3;

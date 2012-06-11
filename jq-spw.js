@@ -95,10 +95,10 @@
         // calculate progress
         data.total = parseInt(data[opts.auto_measurement_key], 10) + parseInt(data[opts.manual_measurement_key], 10);
         // error checking
-        data.total = isNaN(data.total) ? 26000 : data.total;
+        data.total = isNaN(data.total) ? 30000 : data.total;
         data.progress = parseInt(data.total, 10) / (parseInt(data[opts.target_key], 10) / 100);
         
-        data.total = data.total === 26000 ? '26,000+' : data.total;
+        data.total = data.total === 30000 ? '30,000+' : data.total;
         
         progress_width = $container.width();
         progress_percent_in_px =  (progress_width / 100) * data.progress;

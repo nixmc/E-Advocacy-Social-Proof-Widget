@@ -19,7 +19,9 @@
 				</div> \
 				<h5><span class='widget-footer-base'>0</span><span class='widget-footer-target'><%= target %></span></h5> \
 			</div> \
-      "
+      ",
+      base_figure: 30000,
+      base_figure_text: "30,000+"
     }, $container = this;
 
     // merge the opts with the defaults, overwriting the defaults
@@ -95,10 +97,11 @@
         // calculate progress
         data.total = parseInt(data[opts.auto_measurement_key], 10) + parseInt(data[opts.manual_measurement_key], 10);
         // error checking
-        data.total = isNaN(data.total) ? 30000 : data.total;
+        data.total = isNaN(data.total) ? opts.base_figure : data.total;
         data.progress = parseInt(data.total, 10) / (parseInt(data[opts.target_key], 10) / 100);
         
-        data.total = data.total === 30000 ? '30,000+' : data.total;
+        data.total = data.total === opts.base_figure ? opts.base_figure_text : data.total;
+        console.log(data.total);
         
         progress_width = $container.width();
         progress_percent_in_px =  (progress_width / 100) * data.progress;

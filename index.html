@@ -8,13 +8,17 @@
     <script type="text/javascript" src="jq-spw.js"></script>
     <script type="text/javascript">
     $(document).ready(function() {
-      $('#container').spwWidgetize('https://spreadsheets.google.com/feeds/list/0AgwxfJ2RdQrudDVKTl9aNHhVQlU1blFHcC1sZHhBOEE/2/public/basic?alt=json',
+      var proper = 'https://spreadsheets.google.com/feeds/list/0AgwxfJ2RdQrudDVKTl9aNHhVQlU1blFHcC1sZHhBOEE/2/public/basic?alt=json';
+      var debug = 'https://spreadsheets.google.com/feeds/list/0AkZr5POdk3QrdGpvOThWWVg1a1RjU1dfQjhrYWg5ZWc/2/public/basic?alt=json';
+      $('#container').spwWidgetize(proper,
       {
         auto_measurement_key: 'emailsSent',
         manual_measurement_key: 'manualMeasurement',
         target_key: 'target',
         measurement_text_key: 'measurementText',
         debug: true,
+        base_figure: 40000,
+        base_figure_text: "40,000+"
       });
     });
     </script>

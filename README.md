@@ -8,7 +8,7 @@ A social proof widget to be used in conjunction with the E-Advocacy platform.
         <script type="text/javascript" src="jq-spw.js"></script>
         <script type="text/javascript">
           $(document).ready(function() {
-            $('#container').spwWidgetize(http://spreadsheets.google.com/feeds/list/0AgwxfJ2RdQrudDVKTl9aNHhVQlU1blFHcC1sZHhBOEE/2/public/basic?alt=json, {debug: true});
+            $('#container').spwWidgetize('http://spreadsheets.google.com/feeds/list/0AgwxfJ2RdQrudDVKTl9aNHhVQlU1blFHcC1sZHhBOEE/2/public/basic?alt=json', {debug: true});
           });
         </script>
       </head>

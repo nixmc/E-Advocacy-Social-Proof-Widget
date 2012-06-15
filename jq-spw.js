@@ -101,7 +101,6 @@
         data.progress = parseInt(data.total, 10) / (parseInt(data[opts.target_key], 10) / 100);
         
         data.total = data.total === opts.base_figure ? opts.base_figure_text : data.total;
-        console.log(data.total);
         
         progress_width = $container.width();
         progress_percent_in_px =  (progress_width / 100) * data.progress;
